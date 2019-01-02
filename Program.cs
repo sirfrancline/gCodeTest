@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text.RegularExpressions;
 
 namespace GcodeTest
@@ -7,69 +8,72 @@ namespace GcodeTest
     {
         private static void Main(string[] args)
         {
+            string[] lines = File.ReadAllLines("gCodeCommands.txt");
 
-            var line = Console.ReadLine();
-            Regex gcode = new Regex("[GXYZ][-+]?[0-9]*\\.?[0-9]*", RegexOptions.IgnoreCase);
-
-            MatchCollection m = gcode.Matches(line);
-
-            double x, y, z, g;
-            foreach (Match n in m)
+            foreach (string line in lines)
             {
-                if (n.Value.StartsWith("G"))
-                {
-                    g = Convert.ToDouble(n.Value.Remove(0, 1));
-                    Console.WriteLine("Command =  " + n.Value);
-                    Console.WriteLine("value =  " + g);
+                Regex gcode = new Regex("[GXYZ][-+]?[0-9]*\\.?[0-9]*", RegexOptions.IgnoreCase);
 
-                    switch (n.Value.ToUpper())
+                MatchCollection m = gcode.Matches(line);
+
+                double x, y, z, g;
+                foreach (Match n in m)
+                {
+                    if (n.Value.StartsWith("G"))
                     {
-                        case "G00":
-                            //
-                            break;
+                        g = Convert.ToDouble(n.Value.Remove(0, 1));
+                        Console.WriteLine("Command =  " + n.Value);
+                        Console.WriteLine("value =  " + g);
 
-                        case "G01":
-                            //
-                            break;
+                        switch (n.Value.ToUpper())
+                        {
+                            case "G00":
+                                //
+                                break;
 
-                        case "G02":
-                            //
-                            break;
+                            case "G01":
+                                //
+                                break;
 
-                        case "G03":
-                            //
-                            break;
+                            case "G02":
+                                //
+                                break;
 
-                        case "G28":
-                            break;
+                            case "G03":
+                                //
+                                break;
 
-                        case "G90":
-                            //
-                            break;
+                            case "G28":
+                                break;
 
-                        case "G91":
+                            case "G90":
+                                //
+                                break;
 
-                            Console.Out.WriteLine("finally yes");
-                            break;
+                            case "G91":
+
+                                Console.Out.WriteLine("finally yes");
+                                break;
+                        }
                     }
-                }
 
-                if (n.Value.StartsWith("X"))
-                {
-                    x = Convert.ToDouble(n.Value.Remove(0, 1));
-                    Console.WriteLine("Command =  " + n.Value);
-                }
+                    if (n.Value.StartsWith("X"))
+                    {
+                        x = Convert.ToDouble(n.Value.Remove(0, 1));
+                        Console.WriteLine("Command =  " + n.Value);
+                    }
 
-                if (n.Value.StartsWith("Y"))
-                {
-                    y = Convert.ToDouble(n.Value.Remove(0, 1));
-                    Console.WriteLine("Command =  " + n.Value);
-                }
+                    if (n.Value.StartsWith("Y"))
+                    {
+                        y = Convert.ToDouble(n.Value.Remove(0, 1));
+                        Console.WriteLine("Command =  " + n.Value);
+                    }
 
-                if (n.Value.StartsWith("Z"))
-                {
-                    z = Convert.ToDouble(n.Value.Remove(0, 1));
-                    Console.WriteLine("Command =  " + n.Value);
+                    if (n.Value.StartsWith("Z"))
+                    {
+                        z = Convert.ToDouble(n.Value.Remove(0, 1));
+                        Console.WriteLine("Command =  " + n.Value);
+                    }
                 }
             }
         }
